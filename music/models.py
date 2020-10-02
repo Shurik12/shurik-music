@@ -9,6 +9,12 @@ class Track(models.Model):
 	name = models.CharField(max_length=100)
 	author = models.CharField(max_length=100)
 	like = models.ManyToManyField(User,  blank=True, related_name="like_user")
+	def serialize(self):
+		return {
+			"id": self.id,
+			"name": self.name,
+			"author": self.author
+		}
 
 class Station(models.Model):
 	name = models.CharField(max_length=100)

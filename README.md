@@ -30,3 +30,34 @@ Django+React.js applcation.
 	coverage html
 	coverage report
 	```
+
+
+2. Install React and webpack
+	1. Create a new app Django for frontend part
+	```bash
+	django-admin startapp frontend
+	```
+	2. Let's prepare folders for storing React components and static:
+	```bash
+	mkdir -p ./frontend/src/components
+	mkdir -p ./frontend/{static,templates}/frontend
+	```
+	3. Install React, webpack, babel. Go to the frontend folder and create an environment:
+	```bash
+	cd ./frontend && npm init -y
+	```
+	Open package.json and write 2 scripts for prod and develop:
+	```html
+	"scripts": {
+	  "dev": "webpack --mode development ./src/index.js --output ./static/frontend/main.js",
+	  "build": "webpack --mode production ./src/index.js --output ./static/frontend/main.js"
+	}
+	```
+	Install babel to make the code compatible with older browsers that don't support the latest JavaScript standards:
+	```bash
+	npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev
+	```
+	Install React
+	```bash
+	npm i react react-dom --save-dev
+	```
