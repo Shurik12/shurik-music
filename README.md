@@ -46,6 +46,10 @@ Django+React.js applcation.
 	```bash
 	cd ./frontend && npm init -y
 	```
+	Install webpack and webpack cli:
+	```bash
+	npm i webpack webpack-cli --save-dev
+	```
 	Open package.json and write 2 scripts for prod and develop:
 	```html
 	"scripts": {
@@ -61,3 +65,10 @@ Django+React.js applcation.
 	```bash
 	npm i react react-dom --save-dev
 	```
+
+### Run application
+```bash
+source venv/bin/activate
+npm run dev
+python manage.py runserver
+```

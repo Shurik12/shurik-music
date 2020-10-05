@@ -15,5 +15,4 @@ def shurik_music(request):
 	context = {
 		"tracks": [track.serialize() for track in tracks],
 	}
-	print(context)
 	return JsonResponse(context)

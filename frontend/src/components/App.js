@@ -1,52 +1,42 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
+
+import AllMusic from './AllMusic'
+import WelcomePage from './WelcomePage'
 
 class App extends Component {
-  
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {},
-      isFetching: true, 
-      error: null 
-    };
-  }
+	render() {
+		return (
+    	<Router>
+	    	<nav className="navbar navbar-expand-lg navbar-light bg-light">
+			    <Link className="nav-link" to="/"> Welcome page </Link>
+			    { true
+			      ?
+			      	<div>
+		              <ul className="navbar-nav mr-auto">
+			              <li className="nav-item"><Link className="nav-link" to="/music">Music</Link></li>
+			              <li className="nav-item"><Link className="nav-link" to="/music">All Posts</Link></li>
+			              <li className="nav-item"><a className="nav-link" href="/logout">Log Out</a></li>
+			      	  </ul>
+	            </div>
+			      :
+			      	<div>
+		              <ul className="navbar-nav mr-auto">
+			              <li className="nav-item"><a className="nav-link" href="#">All Posts</a></li>
+			              <li className="nav-item"><a className="nav-link" href="/login">Log In</a></li>
+			              <li className="nav-item"><a className="nav-link" href="/register">Reister</a></li>
+			      	  </ul>
+	            </div>
+	        }
+				</nav>
 
-  componentDidMount() {
-    fetch("music/shurik_music")
-    // fetch("music/shurik_music")
-      .then(response => response.json())
-      .then(result => {console.log(result); this.setState({
-            data: result,
-            isFetching: false
-        })})
-      .catch(e => {
-              console.log(e);
-              this.setState({
-                data: result,
-                isFetching: false,
-                error: e
-              });
-            });
-  }
-
-  render() {
-
-    if (this.state.isFetching) return <div>...Loading</div>;
-    if (this.state.error) return <div>{`Error: ${e.message}`}</div>;
-
-    return (
-      <ul>
-        {this.state.data["tracks"].map(track => {
-          return (
-            <li key={track.id}>
-            {track.name} - {track.author}
-            </li>
-          );
-        })}
-      </ul>
-    );
-  }
+			  <Route exact path="/"><WelcomePage /></Route>
+		    <Route path="/music"><AllMusic /></Route>
+	      
+			</Router>
+		);
+	}
 }
 
 export default App;
