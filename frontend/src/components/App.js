@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Link, NavLink, Route } from 'react-router-dom'
+import { Navbar, InputGroup, Form, FormControl, Nav, NavDropdown, Button } from 'react-bootstrap';
+import { BsSearch } from "react-icons/bs";
 
 import AllMusic from './AllMusic'
 import WelcomePage from './WelcomePage'
@@ -9,27 +11,57 @@ class App extends Component {
 	render() {
 		return (
     	<Router>
-	    	<nav className="navbar navbar-expand-lg navbar-light bg-light">
-			    <Link className="nav-link" to="/"> Welcome page </Link>
-			    { true
-			      ?
-			      	<div>
-		              <ul className="navbar-nav mr-auto">
-			              <li className="nav-item"><Link className="nav-link" to="/music">Music</Link></li>
-			              <li className="nav-item"><Link className="nav-link" to="/music">All Posts</Link></li>
-			              <li className="nav-item"><a className="nav-link" href="/logout">Log Out</a></li>
-			      	  </ul>
-	            </div>
-			      :
-			      	<div>
-		              <ul className="navbar-nav mr-auto">
-			              <li className="nav-item"><a className="nav-link" href="#">All Posts</a></li>
-			              <li className="nav-item"><a className="nav-link" href="/login">Log In</a></li>
-			              <li className="nav-item"><a className="nav-link" href="/register">Reister</a></li>
-			      	  </ul>
-	            </div>
-	        }
-				</nav>
+
+    		<Navbar bg="dark" variant="dark">
+				  <Navbar.Brand href="#">
+				  	<Link className="navbar-brand mr-0 mr-md-2" to="/">
+	            <img
+					      alt=""
+					      src="../static/frontend/images/logo1.jpeg"
+					      width="120"
+					      height="40"
+					      className="d-inline-block align-top"
+					    />
+	          </Link>
+				  </Navbar.Brand>
+				  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+				  <Navbar.Collapse id="basic-navbar-nav">
+				    <Form inline>
+				      <InputGroup>
+				        <FormControl
+				          placeholder="Search"
+				          aria-label="Search"
+				          aria-describedby="basic-addon1"
+				        />
+				        <InputGroup.Append>
+				        	<Button variant="outline-secondary"><BsSearch/></Button>
+				        </InputGroup.Append>
+				      </InputGroup>
+				    </Form>
+				    <Nav className="mr-auto">
+				      <Nav.Link href="#">
+				      	<Link className="navbar-nav" to="/music">
+				      		Music
+				      	</Link>
+				      </Nav.Link>
+				      <Nav.Link to="/categories">Categories</Nav.Link>
+				      <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+				        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+				        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+				        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+				        <NavDropdown.Divider />
+				        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+				      </NavDropdown>
+				    </Nav>
+
+				    <Nav>
+				      <Nav.Link href="#deets">More deets</Nav.Link>
+				      <Nav.Link >
+				        Dank memes
+				      </Nav.Link>
+				    </Nav>
+				  </Navbar.Collapse>
+				</Navbar>
 
 			  <Route exact path="/"><WelcomePage /></Route>
 		    <Route path="/music"><AllMusic /></Route>
