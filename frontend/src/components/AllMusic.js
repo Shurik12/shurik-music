@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 
+import { ListSong } from './ListSong';
+
 class AllMusic extends React.Component {
 
 	constructor(props) {
@@ -33,17 +35,11 @@ class AllMusic extends React.Component {
 
 		if (this.state.isFetching) return <div>...Loading</div>;
 		if (this.state.error) return <div>{`Error: ${e.message}`}</div>;
+
+		console.log(this.state.data["tracks"]);
 		return ( 
 			<div className="Network">
-				<ul>
-					{this.state.data["tracks"].map(track => {
-						return (
-							<li key={track.id}>
-								{track.name}  {track.author}
-							</li>
-						);
-					})}
-				</ul>
+				<ListSong tracks={ this.state.data["tracks"] }/>
 			</div>
 		)
 	}

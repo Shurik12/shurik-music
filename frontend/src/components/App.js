@@ -55,17 +55,15 @@ class App extends Component {
 				    </Nav>
 
 				    <Nav>
-				      <Nav.Link href="#deets">More deets</Nav.Link>
-				      <Nav.Link >
-				        Dank memes
-				      </Nav.Link>
+				      <Nav.Link href="#">Sing up</Nav.Link>
+				      <Nav.Link > Sing in </Nav.Link>
 				    </Nav>
 				  </Navbar.Collapse>
 				</Navbar>
 
 			  <Route exact path="/"><WelcomePage /></Route>
 		    <Route path="/music"><AllMusic /></Route>
-	      
+		    
 			</Router>
 		);
 	}

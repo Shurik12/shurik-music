@@ -15,4 +15,15 @@ def shurik_music(request):
 	context = {
 		"tracks": [track.serialize() for track in tracks],
 	}
+	print(context)
 	return JsonResponse(context)
+
+@csrf_exempt
+def author(request):
+	if request.method == "POST":
+		author = get_data_from_request()
+		author = Author.objects.get(name=author)
+		context ={
+			"author": author.serialize()
+		}
+		return JsonResponse(context)
