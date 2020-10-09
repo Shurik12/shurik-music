@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import { BrowserRouter as Router, Link, NavLink, Route } from 'react-router-dom'
-import { Navbar, InputGroup, Form, FormControl, Nav, NavDropdown, Button } from 'react-bootstrap';
+import { Navbar, InputGroup, Form, FormControl, Nav, NavDropdown, Button, ListGroup } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 
 import AllMusic from './AllMusic'
@@ -11,7 +11,6 @@ class App extends Component {
 	render() {
 		return (
     	<Router>
-
     		<Navbar bg="dark" variant="dark">
 				  <Navbar.Brand href="#">
 				  	<Link className="navbar-brand mr-0 mr-md-2" to="/">
@@ -55,9 +54,58 @@ class App extends Component {
 				    </Nav>
 
 				    <Nav>
-				      <Nav.Link href="#">Sing up</Nav.Link>
-				      <Nav.Link > Sing in </Nav.Link>
+				      <NavDropdown title="Sign in" alignRight>
+				        <Form>
+					        <NavDropdown.Header>Sign in with your social media account</NavDropdown.Header>
+				          <ListGroup horizontal>
+				            <Button className="ml-2 btn btn-primary col-sm">Facebook</Button>
+				            <Button className="mx-2 btn btn-success col-sm">Twitter</Button>
+				          </ListGroup>
+				          <NavDropdown.Divider/>
+				          <div className="form-group mx-2">
+				            <input type="text" className="form-control" placeholder="Username" required="required"/>
+				          </div>
+				          <div className="form-group mx-2">
+				            <input type="password" className="form-control" placeholder="Password" required="required"/>
+				          </div>
+				          <div className="mx-2">
+					          <input type="submit" className="btn btn-primary btn-sm btn-block" value="Login"/>
+					        </div>
+				          <div className="text-center mt-2">
+				            <a href="#">Forgot Your password?</a>
+				          </div>
+				        </Form>
+				      </NavDropdown>
+				      <NavDropdown title="Sign up" alignRight>
+							  <Form>
+								  <NavDropdown.Header>Please fill in this form to create an account!</NavDropdown.Header>
+							    <div className="form-group mx-2">        
+							      <input type="text" class="form-control" name="username" placeholder="Username" required="required"/>
+							    </div>
+							    <div className="form-group mx-2">
+							      <input type="email" className="form-control" name="email" placeholder="Email Address" required="required"/>
+							    </div>
+							    <div className="form-group mx-2">
+							      <input type="text" className="form-control" name="password" placeholder="Password" required="required"/>
+							    </div>
+							    <div className="form-group mx-2">
+							      <input type="text" className="form-control" name="confirm_password" placeholder="Confirm Password" required="required"/>
+							    </div>
+							    <div className="form-group mx-2">
+							      <label className="form-check-label">
+							        <input type="checkbox" required="required"/> I accept the 
+							        <a href="#">Terms of Use</a> &amp; 
+							        <a href="#">Privacy Policy</a>
+							      </label>
+							    </div>
+							    <div className="form-group mx-2">
+							      <button type="submit" className="btn btn-success btn-sm btn-block">Sign Up</button>
+							    </div>
+							  </Form>
+							  <div className="text-center">Already have an account? <a href="#">Login here</a></div>
+							</NavDropdown>
 				    </Nav>
+
 				  </Navbar.Collapse>
 				</Navbar>
 

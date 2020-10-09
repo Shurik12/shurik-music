@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 
 import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import { ListGroup } from 'react-bootstrap';
 
 import { Song } from './Song';
 
@@ -11,7 +9,7 @@ export const ListSong = (tracks) => {
 	console.log(tracks.tracks);
 	return (
 		<div style={{ marginBottom: '50px' }}>
-      <List> 
+      <ListGroup className="d-flex" style={{ width: '60%' }}> 
       	{ tracks.tracks.map(track => {
       		return (
       			<>
@@ -19,11 +17,10 @@ export const ListSong = (tracks) => {
                 key={`tack-${track.id}`}
                 track={ track }
               />
-              <Divider key={`divider-${track.id}`} />
             </>
           );
       	})}
-      </List>
+      </ListGroup>
     </div>
 	)
 }
