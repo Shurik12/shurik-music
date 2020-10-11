@@ -1,13 +1,79 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import { BrowserRouter as Router, Link, NavLink, Route } from 'react-router-dom'
-import { Navbar, InputGroup, Form, FormControl, Nav, NavDropdown, Button, ListGroup } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown, InputGroup, FormControl, Button, ListGroup, Form } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 
 import AllMusic from './AllMusic'
 import WelcomePage from './WelcomePage'
 
 class App extends Component {
+
+	constructor(props) {
+	    super(props);
+	    this.state = {
+	    	auth: false,
+	    	message: "",
+	    	isFetching: false, 
+				error: null
+	    };
+	    this.handleFetch = this.handleFetch.bind(this);
+	    this.handleSubmitLogin = this.handleSubmitLogin.bind(this);
+	    this.handleSubmitSignUp = this.handleSubmitSignUp.bind(this);
+	    this.handleSubmitLogout = this.handleSubmitLogout.bind(this);
+	}
+
+	handleFetch(url, data) {
+		fetch(url, {method: "post", body: JSON.stringify(data)})
+    .then(response => response.json())
+    .then(result => this.setState({
+    	auth: result["auth"],
+    	message: result["message"],
+    	isFetching: false 
+    }))
+    .catch(e => {
+      console.log(e);
+      this.setState({
+      	auth: result["auth"],
+	    	message: result["message"],
+	    	isFetching: false,
+      	error: e
+      });
+    });
+	}
+
+	handleSubmitLogin(event) {
+
+		const data = {
+			"username": event.target.username.value,
+			"password": event.target.password.value
+		};
+		event.target.username.value = "";
+		event.target.password.value = "";
+		this.handleFetch('/music/login', data);
+  	event.preventDefault();
+	}
+
+	handleSubmitSignUp(event) {
+		const data = {
+			"username": event.target.username.value,
+			"password": event.target.password.value,
+			"confirmation": event.target.confirm_password.value,
+			"email": event.target.email.value
+		};
+		this.handleFetch('/music/register', data);
+  	event.preventDefault();
+	}
+
+	handleSubmitLogout(event) {
+		this.setState({
+    	auth: false,
+    	message: "",
+    	isFetching: false
+    });
+    event.preventDefault();
+	}
+
 	render() {
 		return (
     	<Router>
@@ -38,13 +104,13 @@ class App extends Component {
 				      </InputGroup>
 				    </Form>
 				    <Nav className="mr-auto">
-				      <Nav.Link href="#">
-				      	<Link className="navbar-nav" to="/music">
-				      		Music
-				      	</Link>
+				      <Nav.Link>
+				      	<Link to="/music" className="navbar-nav nav-item nav-link">Music </Link>
 				      </Nav.Link>
-				      <Nav.Link to="/categories">Categories</Nav.Link>
-				      <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+				      <Nav.Link>
+				      	<Link to="/categories" className="navbar-nav nav-item nav-link">Categories </Link>
+				      </Nav.Link>
+				      <NavDropdown title="Dropdown" id="basic-nav-dropdown" className="navbar-nav nav-item nav-link">
 				        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
 				        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
 				        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
@@ -53,59 +119,68 @@ class App extends Component {
 				      </NavDropdown>
 				    </Nav>
 
-				    <Nav>
-				      <NavDropdown title="Sign in" alignRight>
-				        <Form>
-					        <NavDropdown.Header>Sign in with your social media account</NavDropdown.Header>
-				          <ListGroup horizontal>
-				            <Button className="ml-2 btn btn-primary col-sm">Facebook</Button>
-				            <Button className="mx-2 btn btn-success col-sm">Twitter</Button>
-				          </ListGroup>
-				          <NavDropdown.Divider/>
-				          <div className="form-group mx-2">
-				            <input type="text" className="form-control" placeholder="Username" required="required"/>
-				          </div>
-				          <div className="form-group mx-2">
-				            <input type="password" className="form-control" placeholder="Password" required="required"/>
-				          </div>
-				          <div className="mx-2">
-					          <input type="submit" className="btn btn-primary btn-sm btn-block" value="Login"/>
-					        </div>
-				          <div className="text-center mt-2">
-				            <a href="#">Forgot Your password?</a>
-				          </div>
-				        </Form>
-				      </NavDropdown>
-				      <NavDropdown title="Sign up" alignRight>
-							  <Form>
-								  <NavDropdown.Header>Please fill in this form to create an account!</NavDropdown.Header>
-							    <div className="form-group mx-2">        
-							      <input type="text" class="form-control" name="username" placeholder="Username" required="required"/>
-							    </div>
-							    <div className="form-group mx-2">
-							      <input type="email" className="form-control" name="email" placeholder="Email Address" required="required"/>
-							    </div>
-							    <div className="form-group mx-2">
-							      <input type="text" className="form-control" name="password" placeholder="Password" required="required"/>
-							    </div>
-							    <div className="form-group mx-2">
-							      <input type="text" className="form-control" name="confirm_password" placeholder="Confirm Password" required="required"/>
-							    </div>
-							    <div className="form-group mx-2">
-							      <label className="form-check-label">
-							        <input type="checkbox" required="required"/> I accept the 
-							        <a href="#">Terms of Use</a> &amp; 
-							        <a href="#">Privacy Policy</a>
-							      </label>
-							    </div>
-							    <div className="form-group mx-2">
-							      <button type="submit" className="btn btn-success btn-sm btn-block">Sign Up</button>
-							    </div>
-							  </Form>
-							  <div className="text-center">Already have an account? <a href="#">Login here</a></div>
-							</NavDropdown>
-				    </Nav>
-
+				    { this.state.auth
+					  ? <Nav>
+					  		<Nav.Link className="navbar-nav" onClick={this.handleSubmitLogout}>Log out</Nav.Link>
+					  	</Nav>
+					  : <Nav>
+					      <NavDropdown title="Sign in" alignRight>
+					        <Form onSubmit={this.handleSubmitLogin}>
+						        <NavDropdown.Header>Sign in with your social media account</NavDropdown.Header>
+					          <ListGroup horizontal>
+					            <Button className="ml-2 btn btn-primary col-sm">Facebook</Button>
+					            <Button className="mx-2 btn btn-success col-sm">Twitter</Button>
+					          </ListGroup>
+					          <NavDropdown.Divider/>
+					          <div className="form-group mx-2">
+					            <input type="text" name="username" className="form-control" placeholder="Username" required="required"/>
+					          </div>
+					          <div className="form-group mx-2">
+					            <input type="password" name="password" className="form-control" placeholder="Password" required="required"/>
+					          </div>
+					          {
+					          	this.state.message && <div className="text-center text-danger">{ this.state.message }</div>
+					          }
+					          <div className="mx-2">
+						          <input type="submit" className="btn btn-primary btn-sm btn-block" value="Login"/>
+						        </div>
+					          <div className="text-center mt-2">
+					            <Link to="#">Forgot Your password?</Link>
+					          </div>
+					        </Form>
+					      </NavDropdown>
+					      <NavDropdown title="Sign up" alignRight>
+								  <Form onSubmit={this.handleSubmitSignUp}>
+									  <NavDropdown.Header>Please fill in this form to create an account!</NavDropdown.Header>
+								    <div className="form-group mx-2">        
+								      <input type="text" className="form-control" name="username" placeholder="Username" required="required"/>
+								    </div>
+								    <div className="form-group mx-2">
+								      <input type="email" className="form-control" name="email" placeholder="Email Address" required="required"/>
+								    </div>
+								    <div className="form-group mx-2">
+								      <input type="text" className="form-control" name="password" placeholder="Password" required="required"/>
+								    </div>
+								    <div className="form-group mx-2">
+								      <input type="text" className="form-control" name="confirm_password" placeholder="Confirm Password" required="required"/>
+								    </div>
+								    {
+					          	this.state.message && <div className="text-center text-danger">{ this.state.message }</div>
+					          }
+								    <div className="form-group mx-2">
+								      <label className="form-check-label">
+								        <input type="checkbox" required="required"/> I accept the 
+								        <a href="#">Terms of Use &amp; Privacy Policy</a>
+								      </label>
+								    </div>
+								    <div className="form-group mx-2">
+								      <button type="submit" className="btn btn-success btn-sm btn-block">Sign Up</button>
+								    </div>
+								  </Form>
+								  <div className="text-center">Already have an account? <a href="#">Login here</a></div>
+								</NavDropdown>
+					    </Nav>
+					  }
 				  </Navbar.Collapse>
 				</Navbar>
 

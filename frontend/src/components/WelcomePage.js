@@ -7,7 +7,7 @@ class WelcomePage extends React.Component {
 			backgroundImage: 'url("../static/frontend/images/gif1.gif")',
 			backgroundRepeat: 'no-repeat',
 			backgroundSize: '100% 100%',
-			height: "91vh",
+			height: "89.5vh",
 		};
 		return (
 			<div style={mystyle}>

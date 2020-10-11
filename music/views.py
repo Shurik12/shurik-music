@@ -28,53 +28,63 @@ def author(request):
 		}
 		return JsonResponse(context)
 
+@csrf_exempt
 def login_view(request):
-	if request.method == "POST":
 
-		# Attempt to sign user in
-		username = request.POST["username"]
-		password = request.POST["password"]
-		user = authenticate(request, username=username, password=password)
+	data = ast.literal_eval(request.body.decode("UTF-8")) # data = repr(b)
+	# Attempt to sign user in
+	username = data["username"]
+	password = data["password"]
+	user = authenticate(request, username=username, password=password)
 
-		# Check if authentication successful
-		if user is not None:
-			login(request, user)
-			return HttpResponseRedirect(reverse("index"))
-		else:
-			return render(request, "network/login.html", {
-				"message": "Invalid username and/or password."
-			})
+	# Check if authentication successful
+	if user is not None:
+		login(request, user)
+		context = {
+			"auth" : True,
+			"message": ""
+		}
 	else:
-		return render(request, "network/login.html")
+		context = {
+			"auth" : False,
+			"message": "Invalid username and/or password."
+		}
+	return JsonResponse(context)
 
-
+@csrf_exempt
 def logout_view(request):
+	print("logout")
 	logout(request)
-	return HttpResponseRedirect(reverse("index"))
 
-
+@csrf_exempt
 def register(request):
-	if request.method == "POST":
-		username = request.POST["username"]
-		email = request.POST["email"]
 
-		# Ensure password matches confirmation
-		password = request.POST["password"]
-		confirmation = request.POST["confirmation"]
-		if password != confirmation:
-			return render(request, "network/register.html", {
-				"message": "Passwords must match."
-			})
+	data = ast.literal_eval(request.body.decode("UTF-8")) # data = repr(b)
+	username = data["username"]
+	email = data["email"]
+	password = data["password"]
+	confirmation = data["confirmation"]
 
-		# Attempt to create new user
+	if password != confirmation:
+		context = {
+			"auth" : False,
+			"message": "Passwords must match."
+		}
+
+	# Attempt to create new user
+	else:
 		try:
 			user = User.objects.create_user(username, email, password)
 			user.save()
+			login(request, user)
+			context = {
+				"auth" : True,
+				"message": ""
+			}
 		except IntegrityError:
-			return render(request, "network/register.html", {
+			context = {
+				"auth" : False,
 				"message": "Username already taken."
-			})
-		login(request, user)
-		return HttpResponseRedirect(reverse("index"))
-	else:
-		return render(request, "network/register.html")
+			}
+	
+	return JsonResponse(context)
