@@ -12,9 +12,11 @@ from .methods.auth import logout_view, register, login_view
 
 @csrf_exempt
 def shurik_music(request):
+	user = request.user.username
 	tracks = Track.objects.all()
 	context = {
 		"tracks": [track.serialize() for track in tracks],
+		"user": user
 	}
 	return JsonResponse(context)
 

@@ -28,10 +28,14 @@ class Track(models.Model):
 	station = models.ManyToManyField(Station,  blank=True, related_name="station_track")
 	like = models.ManyToManyField(User,  blank=True, related_name="like_user")
 	def serialize(self):
+		likes = []
+		for l in self.like.all():
+			likes.append(l.username)
 		return {
 			"id": self.id,
 			"name": self.name,
-			"author": self.author.name
+			"author": self.author.name,
+			"like": likes
 		}
 
 class Profile(models.Model):

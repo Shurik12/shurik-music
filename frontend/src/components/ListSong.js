@@ -3,19 +3,20 @@ import React, { Component } from "react";
 import Divider from '@material-ui/core/Divider';
 import { ListGroup } from 'react-bootstrap';
 
-import { Song } from './Song';
+import Song from './Song';
 
-export const ListSong = (tracks) => {
-	console.log(tracks.tracks);
+export const ListSong = (data) => {
+	console.log(data.data);
 	return (
 		<div style={{ marginBottom: '50px' }}>
       <ListGroup className="d-flex" style={{ width: '60%' }}> 
-      	{ tracks.tracks.map(track => {
+      	{ data.data["tracks"].map(track => {
       		return (
       			<>
               <Song
                 key={`tack-${track.id}`}
                 track={ track }
+                user={data.data["user"]}
               />
             </>
           );
