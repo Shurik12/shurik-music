@@ -3,7 +3,13 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 class User(AbstractUser):
-	pass
+	def serialize(self):
+		tracks = []
+		for track in self.track_set.all():
+			tracks.append(track.serialize())
+		return {
+			"tracks": tracks
+		}
 
 class Author(models.Model):
 	name = models.CharField(max_length=100)
@@ -21,12 +27,16 @@ class Author(models.Model):
 
 class Station(models.Model):
 	name = models.CharField(max_length=100)
+	def serialize(self):
+		return {
+			"name": self.name
+		}
 
 class Track(models.Model):
 	name = models.CharField(max_length=100)
 	author = models.ForeignKey(Author, on_delete=models.CASCADE)
-	station = models.ManyToManyField(Station,  blank=True, related_name="station_track")
-	like = models.ManyToManyField(User,  blank=True, related_name="like_user")
+	station = models.ManyToManyField(Station)
+	like = models.ManyToManyField(User)
 	def serialize(self):
 		likes = []
 		for l in self.like.all():
@@ -40,5 +50,5 @@ class Track(models.Model):
 
 class Profile(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	station = models.ManyToManyField(Station,  blank=True, related_name="user_station")
+	station = models.ManyToManyField(Station)
 

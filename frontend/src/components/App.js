@@ -4,14 +4,21 @@ import { BrowserRouter as Router, Link, NavLink, Route } from 'react-router-dom'
 import { Nav, Navbar, NavDropdown, InputGroup, FormControl, Button, ListGroup, Form } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 
-import AllMusic from './AllMusic'
-import WelcomePage from './WelcomePage'
+import AllMusic from './AllMusic';
+import WelcomePage from './WelcomePage';
+import Categories from './Categories';
+import Category from './Category';
+import Author from './Author';
+import Song from './Song';
+import Profile from './Profile';
+
 
 class App extends Component {
 
 	constructor(props) {
 	    super(props);
 	    this.state = {
+	    	username: "",
 	    	auth: false,
 	    	message: "",
 	    	isFetching: false, 
@@ -27,6 +34,7 @@ class App extends Component {
 		fetch(url, {method: "post", body: JSON.stringify(data)})
     .then(response => response.json())
     .then(result => this.setState({
+    	username: result["username"],
     	auth: result["auth"],
     	message: result["message"],
     	isFetching: false 
@@ -34,6 +42,7 @@ class App extends Component {
     .catch(e => {
       console.log(e);
       this.setState({
+      	username: result["username"],
       	auth: result["auth"],
 	    	message: result["message"],
 	    	isFetching: false,
@@ -67,6 +76,7 @@ class App extends Component {
 
 	handleSubmitLogout(event) {
 		this.setState({
+			username: "",
     	auth: false,
     	message: "",
     	isFetching: false
@@ -109,6 +119,9 @@ class App extends Component {
 				      </Nav.Link>
 				      <Nav.Link>
 				      	<Link to="/categories" className="navbar-nav nav-item nav-link">Categories </Link>
+				      </Nav.Link>
+				      <Nav.Link>
+				      	<Link className="navbar-nav nav-item nav-link" to={`/profiles/${ this.state.username }`}>Profile </Link>
 				      </Nav.Link>
 				      <NavDropdown title="Dropdown" id="basic-nav-dropdown" className="navbar-nav nav-item nav-link">
 				        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -186,6 +199,10 @@ class App extends Component {
 
 			  <Route exact path="/"><WelcomePage /></Route>
 		    <Route path="/music"><AllMusic /></Route>
+		    <Route path="/authors/:author" component={ Author }/>
+		    <Route path='/profiles/:username' component={ Profile }/>
+		    <Route path="/categories"><Categories /></Route>
+		    <Route path='/category/:category' component={ Category }/>
 		    
 			</Router>
 		);

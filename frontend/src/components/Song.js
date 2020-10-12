@@ -1,6 +1,7 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { RiPlayCircleFill, RiMore2Line, RiHeartFill, RiHeartLine, RiDeleteBin3Line } from "react-icons/ri";
+import { BrowserRouter as Router, Link, NavLink, Route } from 'react-router-dom';
 
 {/*
   export const Song = ( {track, user} ) => (
@@ -37,6 +38,7 @@ class Song extends React.Component {
   handleClickLike(event) {
     const user = this.state.user;
     var track = this.state.track;
+    fetch("/music/like_track", {method: "post", body: JSON.stringify(track)});
     if (track.like.includes(user)) {
       track.like.splice(track.like.indexOf(user), 1)
     } else {
@@ -58,7 +60,9 @@ class Song extends React.Component {
           <RiPlayCircleFill/>
         </ListGroup.Item>
         <ListGroup.Item className="col p-2 border-0" >{ track["name"] }</ListGroup.Item>
-        <ListGroup.Item className="mr-auto p-2 col border-0">{ track["author"] }</ListGroup.Item>
+        <ListGroup.Item className="mr-auto p-2 col border-0">
+          <Link className="text-success" to={`/authors/${ track["author"] }`} >{ track["author"] }</Link>
+        </ListGroup.Item>
         {
           track["like"].includes(user)
           ? <ListGroup.Item className="p-2 border-0"><RiHeartFill onClick={this.handleClickLike}/></ListGroup.Item>

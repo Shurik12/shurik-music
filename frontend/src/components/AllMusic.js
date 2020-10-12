@@ -36,7 +36,6 @@ class AllMusic extends React.Component {
 		if (this.state.isFetching) return <div>...Loading</div>;
 		if (this.state.error) return <div>{`Error: ${e.message}`}</div>;
 
-		console.log(this.state.data["tracks"], this.state.data["user"]);
 		return ( 
 			<div className="Network">
 				<ListSong 

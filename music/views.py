@@ -21,14 +21,55 @@ def shurik_music(request):
 	return JsonResponse(context)
 
 @csrf_exempt
-def author(request):
-	if request.method == "POST":
-		author = get_data_from_request()
-		author = Author.objects.get(name=author)
-		context ={
-			"author": author.serialize()
-		}
-		return JsonResponse(context)
+def like_track(request):
+	user = request.user
+	track = ast.literal_eval(request.body.decode("UTF-8")) # data = repr(b)
+	track = Track.objects.get(name=track["name"])
+	if user in track.like.all():
+		track.like.remove(user)
+	else:
+		track.like.add(user)
+	track.save()
+	return JsonResponse({})
+
+@csrf_exempt
+def categories(request):
+	user = request.user.username
+	categories = Station.objects.all()
+	context = {
+		"categories": [category.serialize() for category in categories],
+		"user": user
+	}
+	return JsonResponse(context)
+
+@csrf_exempt
+def category(request, category):
+	user = request.user.username
+	station = Station.objects.get(name=category) 
+	tracks = station.track_set.all()
+	context = {
+		"tracks": [track.serialize() for track in tracks],
+		"user": user
+	}
+	return JsonResponse(context)
+
+@csrf_exempt
+def author(request, author):
+	author = Author.objects.get(name=author)
+	context ={
+		"author": author.serialize()
+	}
+	return JsonResponse(context)
+
+@csrf_exempt
+def profile(request, username):
+	user = User.objects.get(username=username)
+	user = user.serialize()
+	context ={
+		"user": username,
+		"tracks": user["tracks"]
+	}
+	return JsonResponse(context)
 
 @csrf_exempt
 def login_view(request):
@@ -43,11 +84,13 @@ def login_view(request):
 	if user is not None:
 		login(request, user)
 		context = {
+			"username": username,
 			"auth" : True,
 			"message": ""
 		}
 	else:
 		context = {
+			"username": "",
 			"auth" : False,
 			"message": "Invalid username and/or password."
 		}
@@ -57,6 +100,7 @@ def login_view(request):
 def logout_view(request):
 	print("logout")
 	logout(request)
+	return JsonResponse({})
 
 @csrf_exempt
 def register(request):
@@ -69,6 +113,7 @@ def register(request):
 
 	if password != confirmation:
 		context = {
+			"username": "",
 			"auth" : False,
 			"message": "Passwords must match."
 		}
@@ -80,11 +125,13 @@ def register(request):
 			user.save()
 			login(request, user)
 			context = {
+				"username": username,
 				"auth" : True,
 				"message": ""
 			}
 		except IntegrityError:
 			context = {
+				"username": "",
 				"auth" : False,
 				"message": "Username already taken."
 			}

@@ -6,7 +6,6 @@ import { ListGroup } from 'react-bootstrap';
 import Song from './Song';
 
 export const ListSong = (data) => {
-	console.log(data.data);
 	return (
 		<div style={{ marginBottom: '50px' }}>
       <ListGroup className="d-flex" style={{ width: '60%' }}> 
