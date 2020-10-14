@@ -33,6 +33,18 @@ def like_track(request):
 	return JsonResponse({})
 
 @csrf_exempt
+def like_author(request):
+	user = request.user
+	author = ast.literal_eval(request.body.decode("UTF-8")) # data = repr(b)
+	author = Author.objects.get(name=author["name"])
+	if user in author.like.all():
+		author.like.remove(user)
+	else:
+		author.like.add(user)
+	author.save()
+	return JsonResponse({})
+
+@csrf_exempt
 def categories(request):
 	user = request.user.username
 	categories = Station.objects.all()
@@ -55,8 +67,10 @@ def category(request, category):
 
 @csrf_exempt
 def author(request, author):
+	username = request.user.username
 	author = Author.objects.get(name=author)
 	context ={
+		"username": username,
 		"author": author.serialize()
 	}
 	return JsonResponse(context)
@@ -67,7 +81,8 @@ def profile(request, username):
 	user = user.serialize()
 	context ={
 		"user": username,
-		"tracks": user["tracks"]
+		"tracks": user["tracks"],
+		"authors": user["authors"]
 	}
 	return JsonResponse(context)
 

@@ -2,32 +2,51 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { BrowserRouter as Router, Link, NavLink, Route, useParams } from 'react-router-dom';
 import { RiPlayCircleFill, RiMore2Line, RiHeartFill, RiHeartLine, RiDeleteBin3Line } from "react-icons/ri";
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Button } from 'react-bootstrap';
 
 class Author extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			author: this.props.match.params.author,
-			data: {},
+			authorName: this.props.match.params.author,
+			author: {},
+			username: "",
 			isFetching: true, 
 			error: null 
 		};
+		this.handleClickLike = this.handleClickLike.bind(this);
 	}
 
+	handleClickLike(event) {
+    const username = this.state.username;
+    var author = this.state.author;
+    fetch("/music/like_author", {method: "post", body: JSON.stringify(author)});
+    if (author["likes"].includes(username)) {
+      author["likes"].splice(author["likes"].indexOf(username), 1)
+    } else {
+      author["likes"].push(username);
+    }
+    this.setState({
+      author: author,
+    })
+    event.preventDefault();
+  }
+
 	componentDidMount() {
-		const author = this.state.author;
+		const author = this.state.authorName;
 		fetch(`/music/authors/${author}`)
 			.then(response => response.json())
 			.then(result => this.setState({
-			  data: result,
+			  username: result["username"],
+		  	author: result["author"],
 				isFetching: false 
 			}))
 			.catch(e => {
 			  console.log(e);
 			  this.setState({
-			    data: result,
+			  	username: result["username"],
+			  	author: result["author"],
 					isFetching: false,
 			  	error: e
 			  });
@@ -39,13 +58,13 @@ class Author extends React.Component {
 		if (this.state.isFetching) return <div>...Loading</div>;
 		if (this.state.error) return <div>{`Error: ${e.message}`}</div>;
 
-		const author = this.state.data.author;
-		console.log(author);
+		const author = this.state.author;
+		const username = this.state.username;
 
 		return ( 
 			<div className="Author">
-				<h3> { author["name"] } ({ author["year"] })</h3>
-				<ListGroup className="d-flex" style={{ width: '60%' }}> 
+				<ListGroup className="d-flex" style={{ width: '60%' }}>
+					<h3 className="text-center"> { author["name"] } ({ author["year"] })</h3>
 	      	{ author["tracks"].map(track => {
 	      		return (
 	      			<ListGroup className="d-flex" horizontal>
@@ -59,6 +78,16 @@ class Author extends React.Component {
 				      </ListGroup>
 	          );
 	      	})}
+	      	<div className="d-flex justify-content-end mx-2">
+	      		<span className="badge badge-pill badge-primary" style={{width: '10%'}} >
+		      		{
+			          author["likes"].includes(username)
+			          ? <RiHeartFill onClick={this.handleClickLike}/>
+			          : <RiHeartLine onClick={this.handleClickLike}/>
+			        }
+			        { author["likes"].length }
+			      </span>
+			    </div>
 	      </ListGroup>
 			</div>
 		)

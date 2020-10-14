@@ -13,6 +13,6 @@ urlpatterns = [
     path("categories", views.categories, name="categories"),
     path("categories/<str:category>", views.category, name="category"),
     path("authors/<str:author>", views.author, name="author"),
-    path("like_track", views.like_track, name="like_track")
-    # path("profile/<str:username>", views.profile, name="profile"),
+    path("like_track", views.like_track, name="like_track"),
+    path("like_author", views.like_author, name="like_author")
 ]

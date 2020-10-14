@@ -37,7 +37,8 @@ class AllMusic extends React.Component {
 		if (this.state.error) return <div>{`Error: ${e.message}`}</div>;
 
 		return ( 
-			<div className="Network">
+			<div className="All music">
+				<h3 className="text-center" style={{ width: '60%' }}>All tracks</h3>
 				<ListSong 
 					data={ this.state.data }
 				/>

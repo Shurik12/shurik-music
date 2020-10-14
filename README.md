@@ -1,5 +1,10 @@
 # Shurik-musik application
 Django+React.js applcation.
+## Description
+1. It is a music single-page application. In future will playing audios, tracks.  
+2. Backend part was written on Django. Contains 4 models: User (store information about users), Author (store information about authors and groups), Station (store information about categories and stations) and Track (store information about tracks). Also there are any relations between models. Contains the next views shurik_music, like_track, like_author, categories, category, author, profile, login_view, logout_view, register, which send information to fronend part (React) using json format.
+3. Frontend part was written on React. Conteins 9 components: WelcomePage (start page with some animation), App (main component with navbar and routing), AllMusic (display all tracks), Categories (display categories), Category (display earch category separately), Author (display earch music author and group separatly), Profile (display page of user), ListSong and Song. There is main.js, with compile front app. 
+
 ## Summary of steps:
 * Create REST-API;
 * Set up a build system for the frontend;

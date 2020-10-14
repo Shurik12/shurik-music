@@ -7,22 +7,32 @@ class User(AbstractUser):
 		tracks = []
 		for track in self.track_set.all():
 			tracks.append(track.serialize())
+		authors = []
+		for author in self.author_set.all():
+			authors.append(author.name)
 		return {
-			"tracks": tracks
+			"tracks": tracks,
+			"authors": authors
 		}
 
 class Author(models.Model):
 	name = models.CharField(max_length=100)
 	year = models.CharField(max_length=4)
+	like = models.ManyToManyField(User)
 	def serialize(self):
 		tracks = []
 		for track in self.track_set.all():
 			tracks.append(track.name)
+
+		likes = []
+		for user in self.like.all():
+			likes.append(user.username)
 		return {
 			"id": self.id,
 			"name": self.name,
 			"year": self.year,
-			"tracks": tracks
+			"tracks": tracks,
+			"likes": likes
 		}
 
 class Station(models.Model):
@@ -47,8 +57,3 @@ class Track(models.Model):
 			"author": self.author.name,
 			"like": likes
 		}
-
-class Profile(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	station = models.ManyToManyField(Station)
-

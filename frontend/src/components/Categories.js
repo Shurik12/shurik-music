@@ -43,7 +43,8 @@ class Categories extends React.Component {
     const user = this.state.data["user"];
 		return (
 				<div className="Categories">
-					<ListGroup className="d-flex" style={{ width: '60%' }}> 
+					<ListGroup className="d-flex" style={{ width: '60%' }}>
+						<h3 className="text-center">Categories</h3>
 		      	{ categories.map(category => {
 		      		return (
 		      			<ListGroup className="d-flex" horizontal>

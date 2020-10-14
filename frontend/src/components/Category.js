@@ -39,9 +39,11 @@ class Category extends React.Component {
 		if (this.state.isFetching) return <div>...Loading</div>;
 		if (this.state.error) return <div>{`Error: ${e.message}`}</div>;
 
+		const category = this.state.category;
+
 		return ( 
 			<div className="Category">
-
+				<h3 className="text-center" style={{ width: '60%' }}>{ category }</h3>
 				<ListSong 
 					data={ this.state.data }
 				/>

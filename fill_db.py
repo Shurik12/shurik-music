@@ -1,15 +1,4 @@
-from django.contrib.auth.models import AbstractUser
-from django.contrib.postgres.fields import ArrayField
-from django.db import models
-import os
-
-
-import django
 from music.models import *
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                      'tango_with_django_project.settings')
-django.setup()
 
 tracks = {
 	"Rammstein": {

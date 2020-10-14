@@ -11,7 +11,7 @@ class WelcomePage extends React.Component {
 		};
 		return (
 			<div style={mystyle}>
-				<h2 > 
+				<h2 className="p-2"> 
 					Welcome on shurik-music 
 				</h2>
 			</div>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
+import { ListGroup } from 'react-bootstrap';
 
 import { ListSong } from './ListSong';
 
@@ -41,14 +42,19 @@ class Profile extends React.Component {
 		if (this.state.error) return <div>{`Error: ${e.message}`}</div>;
 
 		const user = this.state.username;
+		const authors = this.state.data.authors;
 
 		return ( 
 			<div className="Profile">
-				<h3> { user } </h3>
-				<h4> Like music </h4>
-				<ListSong 
-					data={ this.state.data }
-				/>
+				<ListGroup className="d-flex" style={{ width: '60%' }}>
+					<h3 className="text-center"> { user } </h3>
+					<h4 className="col p-2 border-0"> Like groups </h4>
+					<h6 className="col p-2 border-0"> { authors.join(", ") } </h6>
+					<h4 className="col p-2 border-0"> Like music </h4>
+					<ListSong 
+						data={ this.state.data }
+					/>
+				</ListGroup>
 			</div>
 		)
 	}
