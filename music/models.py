@@ -16,7 +16,7 @@ class User(AbstractUser):
 		}
 
 class Author(models.Model):
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100, unique=True)
 	year = models.CharField(max_length=4)
 	like = models.ManyToManyField(User)
 	def serialize(self):
@@ -36,14 +36,14 @@ class Author(models.Model):
 		}
 
 class Station(models.Model):
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100, unique=True)
 	def serialize(self):
 		return {
 			"name": self.name
 		}
 
 class Track(models.Model):
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100, unique=True)
 	author = models.ForeignKey(Author, on_delete=models.CASCADE)
 	station = models.ManyToManyField(Station)
 	like = models.ManyToManyField(User)
