@@ -35,6 +35,7 @@ def like_track(request):
 @csrf_exempt
 def like_author(request):
 	user = request.user
+	print(request.body)
 	author = ast.literal_eval(request.body.decode("UTF-8")) # data = repr(b)
 	author = Author.objects.get(name=author["name"])
 	if user in author.like.all():

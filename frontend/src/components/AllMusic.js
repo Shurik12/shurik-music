@@ -15,7 +15,7 @@ class AllMusic extends React.Component {
 	}
 
 	componentDidMount() {
-		fetch("music/shurik_music")
+		fetch("/music/shurik_music")
 			.then(response => response.json())
 			.then(result => this.setState({
 			  data: result,
