@@ -16,23 +16,49 @@ def fill_data_to_db(apps, schema_editor):
 		"Rammstein": {
 			"year": 1994,
 			"station": "Metal",
-			"songs": ["Sonne", "Mutter"]
+			"songs": [
+				"Sonne", 
+				"Mutter"
+			]
 		},
 		"Цой": {
 			"year": 1981,
 			"station": "Rock",
-			"songs": ["Звезда", "Пачка сигарет", "Перемен", "Стук"]
+			"songs": [
+				"Звезда", 
+				"Пачка сигарет", 
+				"Перемен", 
+				"Стук"
+			]
 		},
 		"Ария": {
 			"year": 1985,
 			"station": "Classical",
-			"songs": ["Беспечный ангел", "Штиль", "Я свободен", "Темная башня"]
+			"songs": [
+				"Беспечный ангел", 
+				"Штиль", "Я свободен", 
+				"Темная башня"
+			]
 		},
 		"Scorpions": {
 			"year": 1965,
 			"station": "Jazz",
-			"songs": ["Still loving you", "The wind of change"]
+			"songs": [
+				"Still loving you", 
+				"The wind of change"
+			]
+		},
+		"The Mavericks": {
+			"year": 1989,
+			"station": "Rock",
+			"songs": [
+				"A Better Way", 
+				"All Night Long", 
+				"Back in Your Arms", 
+				"All Over Again"
+			]
 		}
+
 	}
 
 	categories = ["Rock", "Pop", "Classical", "Jazz", "Bardic", "Punk", "Metal"]

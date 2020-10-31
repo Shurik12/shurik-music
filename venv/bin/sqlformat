@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/home/shurik/Documents/Python/Web programming/my_projects/new/shurik-music/venv/bin/python3" "$0" "$@"
-' '''
+#!/home/shurik/git/shurik-music/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

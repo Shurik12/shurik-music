@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/shurik/Documents/Python/Web programming/my_projects/new/shurik-music/venv"
+set -gx VIRTUAL_ENV "/home/shurik/git/shurik-music/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
