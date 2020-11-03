@@ -4,7 +4,7 @@ import { render } from "react-dom";
 class WelcomePage extends React.Component {
 	render() {
 		const mystyle = {
-			backgroundImage: 'url("../static/frontend/images/gif1.gif")',
+			backgroundImage: 'url("https://i.gifer.com/1fTO.gif")',
 			backgroundRepeat: 'no-repeat',
 			backgroundSize: '100% 100%',
 			height: "89.5vh",

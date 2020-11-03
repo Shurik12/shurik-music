@@ -97,7 +97,7 @@ class App extends Component {
 				  	<Link className="navbar-brand mr-0 mr-md-2" to="/">
 	            <img
 					      alt=""
-					      src="../static/frontend/images/logo1.jpeg"
+					      src="https://i.pinimg.com/originals/c8/eb/91/c8eb914f7ba2ffc48a4369c893b1f43f.gif"
 					      width="120"
 					      height="40"
 					      className="d-inline-block align-top"
