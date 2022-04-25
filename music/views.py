@@ -11,6 +11,26 @@ from .models import *
 from .methods.auth import logout_view, register, login_view
 
 @csrf_exempt
+def get_user(request):
+
+	username = request.user.username
+	
+	# Check if authentication successful
+	if username and username != 'AnonymousUser':
+		context = {
+			"username": username,
+			"auth" : True,
+			"message": ""
+		}
+	else:
+		context = {
+			"username": "",
+			"auth" : False,
+			"message": "Invalid username and/or password."
+		}
+	return JsonResponse(context)
+
+@csrf_exempt
 def shurik_music(request):
 	user = request.user.username
 	tracks = Track.objects.all()
