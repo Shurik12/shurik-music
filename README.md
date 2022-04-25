@@ -74,6 +74,8 @@ Django+React.js applcation.
 ### Run application
 ```bash
 source venv/bin/activate
+cd frontend
 npm run dev
+cd ..
 python manage.py runserver
 ```

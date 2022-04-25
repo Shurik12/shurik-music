@@ -1,7 +1,8 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
-import { RiPlayCircleFill, RiMore2Line, RiHeartFill, RiHeartLine, RiDeleteBin3Line } from "react-icons/ri";
+import { RiPauseCircleFill, RiPlayCircleFill, RiMore2Line, RiHeartFill, RiHeartLine, RiDeleteBin3Line } from "react-icons/ri";
 import { BrowserRouter as Router, Link, NavLink, Route } from 'react-router-dom';
+import mp3 from "./Angels_With_Dirty_Faces-Sum_41.mp3";
 
 {/*
   export const Song = ( {track, user} ) => (
@@ -22,6 +23,7 @@ import { BrowserRouter as Router, Link, NavLink, Route } from 'react-router-dom'
     </ListGroup>
   );
 */}
+
 class Song extends React.Component {
 
   constructor(props) {
@@ -29,10 +31,24 @@ class Song extends React.Component {
     this.state = {
       track: this.props.track,
       user: this.props.user,
+      playing: false,
       isFetching: true, 
       error: null 
     };
+    this.audio = new Audio(mp3);
     this.handleClickLike = this.handleClickLike.bind(this);
+    this.play = this.play.bind(this);
+    this.pause = this.pause.bind(this);
+  }
+
+  play() {
+    this.setState({ playing: true });
+    this.audio.play();
+  }
+
+  pause() {
+    this.setState({ playing: false });
+    this.audio.pause();
   }
 
   handleClickLike(event) {
@@ -55,9 +71,14 @@ class Song extends React.Component {
     const track = this.state.track;
     const user = this.state.user;
     return (
+      <>
       <ListGroup className="d-flex" horizontal>
         <ListGroup.Item className="p-2 border-0">
-          <RiPlayCircleFill/>
+          {
+            !this.state.playing
+            ? <RiPlayCircleFill onClick={this.play}/>
+            : <RiPauseCircleFill onClick={this.pause}/>
+          }
         </ListGroup.Item>
         <ListGroup.Item className="col p-2 border-0" >{ track["name"] }</ListGroup.Item>
         <ListGroup.Item className="mr-auto p-2 col border-0">
@@ -72,6 +93,10 @@ class Song extends React.Component {
         <ListGroup.Item className="p-2 border-0"><RiMore2Line/></ListGroup.Item>
 
       </ListGroup>
+      <audio id="audio">
+        <source src={'./Angels_With_Dirty_Faces-Sum_41.mp3'} />
+      </audio>
+      </>
     )
   }
 }

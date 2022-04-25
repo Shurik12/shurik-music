@@ -89,10 +89,18 @@ class App extends Component {
     window.location.reload(false);
   }
 
+  componentDidMount() {
+  	this.handleFetch('/music/');
+  }
+
 	render() {
+
+		if (this.state.isFetching) return <div>...Loading</div>;
+		if (this.state.error) return <div>{`Error: ${e.message}`}</div>;
+
 		return (
     	<HashRouter>
-    		<Navbar bg="dark" variant="dark">
+    		<Navbar bg="dark" variant="dark" style={{height: "10vh"}}>
 				  <Navbar.Brand href="#">
 				  	<Link className="navbar-brand mr-0 mr-md-2" to="/">
 	            <img

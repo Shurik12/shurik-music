@@ -4,10 +4,12 @@ import { render } from "react-dom";
 class WelcomePage extends React.Component {
 	render() {
 		const mystyle = {
+			height: '90vh',
+			width: '100%',
 			backgroundImage: 'url("https://i.gifer.com/1fTO.gif")',
 			backgroundRepeat: 'no-repeat',
-			backgroundSize: '100% 100%',
-			height: "89.5vh",
+			backgroundSize: '100% 100%'
+
 		};
 		return (
 			<div style={mystyle}>
