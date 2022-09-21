@@ -2,27 +2,7 @@ import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { RiPauseCircleFill, RiPlayCircleFill, RiMore2Line, RiHeartFill, RiHeartLine, RiDeleteBin3Line } from "react-icons/ri";
 import { BrowserRouter as Router, Link, NavLink, Route } from 'react-router-dom';
-import mp3 from "./Angels_With_Dirty_Faces-Sum_41.mp3";
-
-{/*
-  export const Song = ( {track, user} ) => (
-    <ListGroup className="d-flex" horizontal>
-      <ListGroup.Item className="p-2 border-0">
-        <RiPlayCircleFill/>
-      </ListGroup.Item>
-      <ListGroup.Item className="col p-2 border-0" >{ track["name"] }</ListGroup.Item>
-      <ListGroup.Item className="mr-auto p-2 col border-0">{ track["author"] }</ListGroup.Item>
-      {
-        track["like"].includes(user)
-        ? <ListGroup.Item className="p-2 border-0"><RiHeartFill/></ListGroup.Item>
-        : <ListGroup.Item className="p-2 border-0"><RiHeartLine/></ListGroup.Item>
-      }
-      <ListGroup.Item className="p-2 border-0"><RiDeleteBin3Line/></ListGroup.Item>
-      <ListGroup.Item className="p-2 border-0"><RiMore2Line/></ListGroup.Item>
-
-    </ListGroup>
-  );
-*/}
+import ReactPlayer from "react-player";
 
 class Song extends React.Component {
 
@@ -35,20 +15,7 @@ class Song extends React.Component {
       isFetching: true, 
       error: null 
     };
-    this.audio = new Audio(mp3);
     this.handleClickLike = this.handleClickLike.bind(this);
-    this.play = this.play.bind(this);
-    this.pause = this.pause.bind(this);
-  }
-
-  play() {
-    this.setState({ playing: true });
-    this.audio.play();
-  }
-
-  pause() {
-    this.setState({ playing: false });
-    this.audio.pause();
   }
 
   handleClickLike(event) {
@@ -72,30 +39,31 @@ class Song extends React.Component {
     const user = this.state.user;
     return (
       <>
-      <ListGroup className="d-flex" horizontal>
-        <ListGroup.Item className="p-2 border-0">
+        <ListGroup className="d-flex" horizontal>
+          <ListGroup.Item className="col p-2 border-0" >
+            { track["name"] }
+            <div>
+              <ReactPlayer
+                url = {`/mediafiles/${track["author"]} - ${track["name"]}.mp3`}
+                width="100%"
+                height="100%"
+                playing={false}
+                controls={true}
+              />
+            </div>
+          </ListGroup.Item>
+          <ListGroup.Item className="mr-auto p-2 col border-0">
+            <Link className="text-success" to={`/authors/${ track["author"] }`} >{ track["author"] }</Link>
+          </ListGroup.Item>
           {
-            !this.state.playing
-            ? <RiPlayCircleFill onClick={this.play}/>
-            : <RiPauseCircleFill onClick={this.pause}/>
+            track["like"].includes(user)
+            ? <ListGroup.Item className="p-2 border-0"><RiHeartFill onClick={this.handleClickLike}/></ListGroup.Item>
+            : <ListGroup.Item className="p-2 border-0"><RiHeartLine onClick={this.handleClickLike}/></ListGroup.Item>
           }
-        </ListGroup.Item>
-        <ListGroup.Item className="col p-2 border-0" >{ track["name"] }</ListGroup.Item>
-        <ListGroup.Item className="mr-auto p-2 col border-0">
-          <Link className="text-success" to={`/authors/${ track["author"] }`} >{ track["author"] }</Link>
-        </ListGroup.Item>
-        {
-          track["like"].includes(user)
-          ? <ListGroup.Item className="p-2 border-0"><RiHeartFill onClick={this.handleClickLike}/></ListGroup.Item>
-          : <ListGroup.Item className="p-2 border-0"><RiHeartLine onClick={this.handleClickLike}/></ListGroup.Item>
-        }
-        <ListGroup.Item className="p-2 border-0"><RiDeleteBin3Line/></ListGroup.Item>
-        <ListGroup.Item className="p-2 border-0"><RiMore2Line/></ListGroup.Item>
+          <ListGroup.Item className="p-2 border-0"><RiDeleteBin3Line/></ListGroup.Item>
+          <ListGroup.Item className="p-2 border-0"><RiMore2Line/></ListGroup.Item>
 
-      </ListGroup>
-      <audio id="audio">
-        <source src={'./Angels_With_Dirty_Faces-Sum_41.mp3'} />
-      </audio>
+        </ListGroup>
       </>
     )
   }

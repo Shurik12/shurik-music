@@ -40,26 +40,26 @@ class Categories extends React.Component {
 		if (this.state.error) return <div>{`Error: ${e.message}`}</div>;
 
 		const categories = this.state.data["categories"];
-    const user = this.state.data["user"];
+    	const user = this.state.data["user"];
 		return (
 				<div className="Categories">
 					<ListGroup className="d-flex" style={{ width: '60%' }}>
 						<h3 className="text-center">Categories</h3>
-		      	{ categories.map(category => {
-		      		return (
-		      			<ListGroup className="d-flex" horizontal>
-					        <ListGroup.Item className="p-2 border-0">
-					          <RiPlayCircleFill/>
-					        </ListGroup.Item>
-					        <ListGroup.Item className="col p-2 border-0" >
-					        	<Link className="text-success" to={`/category/${ category["name"]}`} >{ category["name"] } </Link>
-					        </ListGroup.Item>
-					        <ListGroup.Item className="p-2 border-0"><RiMore2Line/></ListGroup.Item>
+						{ categories.map(category => {
+							return (
+								<ListGroup className="d-flex" horizontal>
+									<ListGroup.Item className="p-2 border-0">
+									<RiPlayCircleFill/>
+									</ListGroup.Item>
+									<ListGroup.Item className="col p-2 border-0" >
+										<Link className="text-success" to={`/category/${ category["name"]}`} >{ category["name"] } </Link>
+									</ListGroup.Item>
+									<ListGroup.Item className="p-2 border-0"><RiMore2Line/></ListGroup.Item>
 
-					      </ListGroup>
-		          );
-		      	})}
-		      </ListGroup>
+								</ListGroup>
+						);
+						})}
+					</ListGroup>
 				</div>
 		)
 	}

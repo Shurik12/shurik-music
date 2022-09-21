@@ -92,24 +92,7 @@ def fill_data_to_db(apps, schema_editor):
 				"Foolish Heart",
 				"La Sitiera"
 			]
-		},
-		"The Mavericks": {
-			"year": 1989,
-			"station": "Rock",
-			"songs": [
-				"A Better Way", 
-				"All Night Long", 
-				"Back In Your Arms Again", 
-				"All Over Again",
-				"What You Do To Me",
-				"Poder Vivir",
-				"Blame It on Your Heart",
-				"Lies",
-				"Foolish Heart",
-				"La Sitiera"
-			]
 		}
-
 	}
 
 	categories = ["Rock", "Pop", "Classical", "Jazz", "Bardic", "Punk", "Metal"]

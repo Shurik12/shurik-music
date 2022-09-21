@@ -25,7 +25,7 @@ class AllMusic extends React.Component {
 			  console.log(e);
 			  this.setState({
 			    data: result,
-					isFetching: false,
+				isFetching: false,
 			  	error: e
 			  });
 			});

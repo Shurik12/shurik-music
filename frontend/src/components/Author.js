@@ -3,6 +3,8 @@ import { render } from "react-dom";
 import { BrowserRouter as Router, Link, NavLink, Route, useParams } from 'react-router-dom';
 import { RiPlayCircleFill, RiMore2Line, RiHeartFill, RiHeartLine, RiDeleteBin3Line } from "react-icons/ri";
 import { ListGroup, Button } from 'react-bootstrap';
+import { ListSong } from './ListSong';
+import ReactPlayer from "react-player";
 
 class Author extends React.Component {
 
@@ -38,7 +40,7 @@ class Author extends React.Component {
 		fetch(`/music/authors/${author}`)
 			.then(response => response.json())
 			.then(result => this.setState({
-			  username: result["username"],
+			username: result["username"],
 		  	author: result["author"],
 				isFetching: false 
 			}))
@@ -47,7 +49,7 @@ class Author extends React.Component {
 			  this.setState({
 			  	username: result["username"],
 			  	author: result["author"],
-					isFetching: false,
+				isFetching: false,
 			  	error: e
 			  });
 			});
@@ -65,30 +67,45 @@ class Author extends React.Component {
 			<div className="Author">
 				<ListGroup className="d-flex" style={{ width: '60%' }}>
 					<h3 className="text-center"> { author["name"] } ({ author["year"] })</h3>
-	      	{ author["tracks"].map(track => {
-	      		return (
-	      			<ListGroup className="d-flex" horizontal>
-				        <ListGroup.Item className="p-2 border-0">
-				          <RiPlayCircleFill/>
-				        </ListGroup.Item>
-				        <ListGroup.Item className="col p-2 border-0" >{ track }</ListGroup.Item>
-				        <ListGroup.Item className="mr-auto p-2 col border-0">{ author["name"] }</ListGroup.Item>
-				        <ListGroup.Item className="p-2 border-0"><RiDeleteBin3Line/></ListGroup.Item>
-				        <ListGroup.Item className="p-2 border-0"><RiMore2Line/></ListGroup.Item>
-				      </ListGroup>
-	          );
-	      	})}
-	      	<div className="d-flex justify-content-end mx-2">
-	      		<span className="badge badge-pill badge-primary" style={{width: '10%'}} >
-		      		{
-			          author["likes"].includes(username)
-			          ? <RiHeartFill onClick={this.handleClickLike}/>
-			          : <RiHeartLine onClick={this.handleClickLike}/>
-			        }
-			        { author["likes"].length }
-			      </span>
-			    </div>
-	      </ListGroup>
+					{ author["tracks"].map(track => {
+						return (
+							// <ListGroup className="d-flex" horizontal>
+							// 	<ListGroup.Item className="p-2 border-0">
+							// 	<RiPlayCircleFill/>
+							// 	</ListGroup.Item>
+							// 	<ListGroup.Item className="col p-2 border-0" >{ track }</ListGroup.Item>
+							// 	<ListGroup.Item className="mr-auto p-2 col border-0">{ author["name"] }</ListGroup.Item>
+							// 	<ListGroup.Item className="p-2 border-0"><RiDeleteBin3Line/></ListGroup.Item>
+							// 	<ListGroup.Item className="p-2 border-0"><RiMore2Line/></ListGroup.Item>
+							// </ListGroup>
+							<ListGroup className="d-flex" horizontal>
+								<ListGroup.Item className="col p-2 border-0" >
+									{ track }
+									<ReactPlayer
+										url = {`/mediafiles/${author["name"]} - ${track}.mp3`}
+										width="50%"
+										height="50%"
+										playing={false}
+										controls={true}
+									/>
+								</ListGroup.Item>
+								<ListGroup.Item className="p-2 border-0"><RiDeleteBin3Line/></ListGroup.Item>
+								<ListGroup.Item className="p-2 border-0"><RiMore2Line/></ListGroup.Item>
+		
+							</ListGroup>
+						);
+					})}
+					<div className="d-flex justify-content-end mx-2">
+						<span className="badge badge-pill badge-primary" style={{width: '10%'}} >
+							{
+								author["likes"].includes(username)
+								? <RiHeartFill onClick={this.handleClickLike}/>
+								: <RiHeartLine onClick={this.handleClickLike}/>
+							}
+							{ author["likes"].length }
+						</span>
+					</div>
+				</ListGroup>
 			</div>
 		)
 	}
